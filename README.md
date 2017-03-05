@@ -24,5 +24,11 @@ local weather_obj = {
 
 	-- Will be called on weather end (after condition_check returns false)
 	clear_up = "function(player)",
+
+	-- Will be called with intention to start weather
+	manual_trigger_start = "function()",
+
+	-- Will be called with intention to end weather
+	manual_trigger_end = "function()"
 }
 ```
