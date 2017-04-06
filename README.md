@@ -30,9 +30,10 @@ in_area       | position        | boolean     | should return true if position i
 render        | dtime, player   | void        | should apply visual, sound or anything else needed to represent weather. 
 
 These methods are not part of weather API lifecycle and expected to be invoked manually (e.g. weather commands, other weather related mods). 
+
 function name | arguments | return type | description
 ------------- | --------- | ----------- | -----------
-start         | position  | void        | should start weather at given position
+start         | position  | void        | should start weather at given position (or just apply weather world wide)
 stop          | < none >  | void        | should end weather
 
 Weather API methods
