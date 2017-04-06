@@ -1,11 +1,11 @@
--- 
--- Happy Weather API Initialization
+--------------------------------------
+-- Happy Weather API: initialization
 
 -- License: MIT
 
--- Credits:
--- * xeranas
+-- Credits: xeranas
+--------------------------------------
 
 local modpath = minetest.get_modpath("happy_weather_api");
-dofile(modpath.."/happy_weather_api.lua")
+dofile(modpath.."/api.lua")
 dofile(modpath.."/commands.lua")

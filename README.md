@@ -1,34 +1,44 @@
-# Happy Weather API
-a minetest mod-api for creating own weather
+Happy Weather API
+===================
+Minetest mod-api to help organize weathers.
 
-```
--- Main weather object template
-local weather_obj = {
-	-- Weather code used to identify weather
-	code = "weather code",
+Overview
+------------
+All weathers parameters and functions should be defined under single object. For reference lets call it `weather_obj`.
 
-	-- Managed by API. Returns true if weather active, false otherwise
-	active = "false",
+Weather object fields
+-------
+Weather code is mandatory property.
 
-	-- Will be called to check if wheater should be activated
-	about_to_start  = "function(dtime)",
+property name      | description
+------------------ | ---------------------------------
+code               | used to identify weather
+active             | weather state flag managed by API
+affected_players   | table of players affected by weather managed by API
 
-	-- Will be called to check if wheater should be deactivated
-	about_to_end = "function(dtime)",
+Weather object callback methods
+-------
+Callback methods which will be invoked by API. It's recommended to implement all bellow callback methods.
 
-	-- Will be called on weather start
-	setup = "function(player)",
+function name | arguments       | return type | description
+------------- | --------------- | ----------- | -----------
+is_starting   | dtime, position | boolean     | should return true if weather is ready to start, false otherwise.
+is_ending     | dtime           | boolean     | should return true if weather is ready to end, false otherwise.
+add_player    | player          | void        | should apply effect for player (change sky, initialize sounds and etc).
+remove_player | player          | void        | should remove weather from player 
+in_area       | position        | boolean     | should return true if position is in weather area, false otherwise.
+render        | dtime, player   | void        | should apply visual, sound or anything else needed to represent weather. 
 
-	-- Will be called on game step
-	update = "function(dtime, player)",
+These methods are not part of weather API lifecycle and expected to be invoked manually (e.g. weather commands, other weather related mods). 
+function name | arguments | return type | description
+------------- | --------- | ----------- | -----------
+start         | position  | void        | should start weather at given position
+stop          | < none >  | void        | should end weather
 
-	-- Will be called on weather end (after condition_check returns false)
-	clear_up = "function(player)",
+Weather API methods
+-------
+function name     | arguments     | return type | description
+----------------- | ------------- | ----------- | -----------
+register_weather  | weather_obj   | void        | will register weather
+is_weather_active | weather_code  | boolean     | will return true if weather is active, false otherwise
 
-	-- Will be called with intention to start weather
-	manual_trigger_start = "function()",
-
-	-- Will be called with intention to end weather
-	manual_trigger_end = "function()"
-}
-```

@@ -1,10 +1,10 @@
--- 
+------------------------------------
 -- Happy Weather API Chat Commands
 
 -- License: MIT
 
--- Credits:
--- * xeranas
+-- Credits: xeranas
+------------------------------------
 
 minetest.register_privilege("weather_manager", {
 	description = "Gives ability to control weather",
@@ -18,7 +18,7 @@ minetest.register_chatcommand("start_weather", {
 	func = function(name, param)
 		if param ~= nil then
 			happy_weather.request_to_start(param)
-			minetest.log("action", name .. " requested to start weather '" .. param .. "' from chat command.")
+			minetest.log("action", name .. " requested weather '" .. param .. "' from chat command")
 		end
 	end
 })
@@ -30,7 +30,7 @@ minetest.register_chatcommand("stop_weather", {
 	func = function(name, param)
 		if param ~= nil then
 			happy_weather.request_to_end(param)
-			minetest.log("action", name .. " requested to stop weather '" .. param .. "' from chat command.")
+			minetest.log("action", name .. " requested weather '" .. param .. "' ending from chat command")
 		end
 	end
 })
