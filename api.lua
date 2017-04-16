@@ -186,15 +186,13 @@ local weather_stop = function(weather_obj, player)
 end
 
 -- Perform clean-up callbacks calls sets flags upon weaher end
-local prepare_ending = function(weather_obj, player)
+local prepare_ending = function(weather_obj)
 	weather_obj.active = false
 	remove_active_weather(weather_obj.code)
-	weather_remove_player(weather_obj, player)
-	remove_player(weather_obj.affected_players, player:get_player_name())
 end
 
 -- Perform weather setup for certain player
-local prepare_starting = function(weather_obj, player)
+local prepare_starting = function(weather_obj)
 	weather_obj.active = true
 	weather_obj.affected_players = {}
 	add_active_weather(weather_obj)
@@ -236,14 +234,18 @@ minetest.register_globalstep(function(dtime)
 
 	-- Loop through registered weathers
 	for i, weather_ in ipairs(registered_weathers) do
+		local deactivate_weather = false
+		local activate_weather = false
 
 		-- Loop through connected players
 		for ii, player in ipairs(minetest.get_connected_players()) do
 			
 			-- Weaher is active checking if it about to end
 			if weather_.active then 
-				if weather_is_ending(weather_, dtime) then
-					prepare_ending(weather_, player)
+				if weather_is_ending(weather_, dtime) or deactivate_weather then
+					weather_remove_player(weather_, player)
+					remove_player(weather_.affected_players, player:get_player_name())
+					deactivate_weather = true -- should remain true until all players will be removed from weather
 				
 				-- Weather still active updating it
 				else
@@ -253,9 +255,17 @@ minetest.register_globalstep(function(dtime)
 			-- Weaher is not active checking if it about to start
 			else
 				if weather_.is_starting(dtime, player:getpos()) then
-					prepare_starting(weather_, player)
+					activate_weather = true
 				end
 			end	
+		end
+
+		if deactivate_weather then
+			prepare_ending(weather_)
+		end
+
+		if activate_weather then
+			prepare_starting(weather_)
 		end
 	end
 end)
