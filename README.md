@@ -42,4 +42,5 @@ function name     | arguments     | return type | description
 ----------------- | ------------- | ----------- | -----------
 register_weather  | weather_obj   | void        | will register weather
 is_weather_active | weather_code  | boolean     | will return true if weather is active, false otherwise
+is_player_in_weather_area | player_name, weather_code  | boolean     | will return true if player is in weather area, false otherwise
 
